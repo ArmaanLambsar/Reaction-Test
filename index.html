@@ -89,7 +89,7 @@
         box.addEventListener("click", () => {
             if (gameActive) {
                 const reactionTime = Date.now() - startTime;
-                result.innerText = 'Your reaction time: ${reactionTime} ms';
+                result.innerText = `Your reaction time: ${reactionTime} ms`;
                 gameActive = false;
             } else {
                 result.innerText = "Too early! Wait for Green.";
