@@ -1,61 +1,183 @@
-body {
-    font-family: "Poppins", sans-serif;
-    background: linear-gradient(135deg, #1e1e2f, #2a2a40);
-    color: white;
-    text-align: center;
-    margin: 0;
-    padding: 0;
+* {
+    box-sizing: border-box;
 }
 
-h1 {
-    margin-top: 40px;
-    font-size: 2.5rem;
-    letter-spacing: 1px;
+html,
+body {
+    margin: 0;
+    min-height: 100%;
+}
+
+body {
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: radial-gradient(circle at top, rgba(120, 99, 255, 0.24), transparent 28%),
+                radial-gradient(circle at bottom right, rgba(0, 255, 192, 0.12), transparent 24%),
+                linear-gradient(135deg, #121427 0%, #1b1c38 100%);
+    color: #f3f7ff;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle, rgba(255,255,255,0.04), transparent 36%);
+    pointer-events: none;
+}
+
+.page-shell {
+    width: min(100%, 420px);
+    position: relative;
+    z-index: 1;
+}
+
+.hero {
+    margin-bottom: 24px;
+}
+
+.hero h1 {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    letter-spacing: 0.04em;
+}
+
+.hero p {
+    margin: 16px auto 0;
+    max-width: 32rem;
+    color: #c8d2ff;
+    line-height: 1.65;
+    font-size: 1rem;
 }
 
 #container {
-    margin: 40px auto;
-    width: 350px;
-    padding: 25px;
-    background: #2f2f48;
-    border-radius: 15px;
-    box-shadow: 0 0 25px rgba(0,0,0,0.4);
+    background: rgba(18, 22, 47, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 32px;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.34);
+    backdrop-filter: blur(18px);
+    padding: 28px;
+}
+
+.panel {
+    display: grid;
+    gap: 22px;
+}
+
+.status-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+}
+
+.status-pill {
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #e7ebff;
+    font-size: 0.95rem;
+    min-width: 130px;
+}
+
+.primary-btn {
+    background: linear-gradient(135deg, #6c5cff, #3f7dff);
+    border: none;
+    border-radius: 18px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 16px 26px;
+    cursor: pointer;
+    transition: transform 0.24s ease, box-shadow 0.24s ease, background 0.24s ease;
+    box-shadow: 0 14px 30px rgba(64, 94, 255, 0.25);
+}
+
+.primary-btn:hover,
+.primary-btn:focus-visible {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 18px 40px rgba(64, 94, 255, 0.32);
+}
+
+.primary-btn:disabled {
+    background: rgba(103, 101, 255, 0.35);
+    cursor: not-allowed;
+    box-shadow: none;
 }
 
 #box {
-    width: 250px;
-    height: 250px;
-    background: #ff4d4d;
-    margin: 25px auto;
-    border-radius: 20px;
+    width: min(260px, 80vw);
+    height: min(260px, 80vw);
+    max-width: 280px;
+    max-height: 280px;
+    margin: 0 auto;
+    border-radius: 28px;
+    border: 2px solid rgba(255, 255, 255, 0.06);
+    background: linear-gradient(180deg, #2c2f4f 0%, #1b1c38 100%);
+    display: grid;
+    place-items: center;
     cursor: pointer;
-    transition: background 0.2s, transform 0.2s;
-    display: none;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    will-change: transform, box-shadow, background;
 }
 
-#box:hover {
-    transform: scale(1.03);
-    box-shadow: 0 0 20px rgba(255,255,255,0.2);
+#box::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.08), transparent 38%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
-#startBtn {
-    padding: 12px 25px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 10px;
-    background: #4d79ff;
-    color: white;
-    cursor: pointer;
-    transition: 0.2s;
+#box.waiting {
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), inset 0 0 0 1px rgba(69, 87, 255, 0.2);
 }
 
-#startBtn:hover {
-    background: #3358cc;
-    transform: scale(1.05);
+#box.waiting::before {
+    opacity: 1;
+}
+
+#box.go {
+    background: #48ff7e;
+    box-shadow: 0 0 40px rgba(72, 255, 126, 0.45), inset 0 0 50px rgba(72, 255, 126, 0.2);
+    transform: scale(1.02);
+}
+
+#box.go::after {
+    content: "GO";
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: rgba(8, 24, 11, 0.9);
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    font-weight: 800;
+    letter-spacing: 0.2em;
+}
+
+#box:not(.go)::after {
+    content: "";
 }
 
 #result {
-    font-size: 1.3rem;
-    margin-top: 15px;
-    font-weight: bold;
+    margin: 0;
+    color: #d7e1ff;
+    font-size: 1.05rem;
+    min-height: 1.3em;
+}
+
+@media (max-width: 420px) {
+    #container {
+        padding: 22px;
+    }
+
+    .primary-btn {
+        width: 100%;
+    }
 }

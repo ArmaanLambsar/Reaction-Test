@@ -1,39 +1,82 @@
-let startTime;
-let gameActive = false;
-
 const box = document.getElementById("box");
 const result = document.getElementById("result");
 const startBtn = document.getElementById("startBtn");
+const prompt = document.getElementById("prompt");
+const bestTimeEl = document.getElementById("bestTime");
 
-function makeGreen() {
-    box.style.background = "#4dff4d";
-    startTime = Date.now();
-    gameActive = true;
+let timerId = null;
+let isWaiting = false;
+let isActive = false;
+let startTime = 0;
+let bestTime = null;
+
+function resetBoxState() {
+    box.classList.remove("waiting", "go");
+}
+
+function updatePrompt(text) {
+    prompt.textContent = text;
+}
+
+function updateBestTime(time) {
+    if (bestTime === null || time < bestTime) {
+        bestTime = time;
+        bestTimeEl.textContent = `Best: ${bestTime} ms`;
+    }
+}
+
+function setButtonState(enabled) {
+    startBtn.disabled = !enabled;
 }
 
 function startGame() {
-    result.innerText = "";
-    box.style.display = "none";
-    gameActive = false;
+    clearTimeout(timerId);
+    resetBoxState();
+    result.textContent = "";
+    isActive = false;
+    isWaiting = true;
+    updatePrompt("Get ready...");
+    setButtonState(false);
+    box.classList.add("waiting");
 
-    const randomDelay = Math.random() * 3000 + 1000;
-
-    setTimeout(() => {
-        box.style.display = "block";
-        box.style.background = "#ff4d4d";
-        makeGreen();
-    }, randomDelay);
+    const delay = Math.random() * 1800 + 1200;
+    timerId = setTimeout(() => {
+        isActive = true;
+        isWaiting = false;
+        startTime = performance.now();
+        updatePrompt("Tap now!");
+        box.classList.remove("waiting");
+        box.classList.add("go");
+    }, delay);
 }
 
-box.addEventListener("click", () => {
-    if (gameActive) {
-        const reactionTime = Date.now() - startTime;
-        result.innerText = `Your reaction time: ${reactionTime} ms`;
-        gameActive = false;
-        box.style.display = "none";
+function handleBoxClick() {
+    if (isActive) {
+        const reactionTime = Math.round(performance.now() - startTime);
+        updatePrompt("Nice shot!");
+        result.textContent = `Reaction time: ${reactionTime} ms`;
+        updateBestTime(reactionTime);
+        isActive = false;
+        setButtonState(true);
+        resetBoxState();
+    } else if (isWaiting) {
+        clearTimeout(timerId);
+        timerId = null;
+        isWaiting = false;
+        updatePrompt("Too early!");
+        result.textContent = "Wait for the green square.";
+        setButtonState(true);
+        resetBoxState();
     } else {
-        result.innerText = "Too early! Wait for green.";
+        updatePrompt("Press Start to begin");
+        result.textContent = "";
     }
-});
+}
 
+box.addEventListener("click", handleBoxClick);
 startBtn.addEventListener("click", startGame);
+
+window.addEventListener("load", () => {
+    setButtonState(true);
+    updatePrompt("Press Start to begin");
+});

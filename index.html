@@ -1,19 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reaction Speed Tester</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="page-shell">
+        <header class="hero">
+            <h1>Reaction Speed Tester</h1>
+            <p>Tap the square as soon as it turns green. Keep your focus and beat your best time.</p>
+        </header>
 
-<h1>Reaction Speed Tester</h1>
+        <main id="container">
+            <section class="panel">
+                <div class="status-row">
+                    <div class="status-pill" id="prompt">Press Start to begin</div>
+                    <div class="status-pill" id="bestTime">Best: —</div>
+                </div>
+                <button id="startBtn" class="primary-btn">Start Test</button>
+                <div id="box" role="button" aria-label="Reaction target"></div>
+                <p id="result" aria-live="polite"></p>
+            </section>
+        </main>
+    </div>
 
-<div id="container">
-    <button id="startBtn">Start Test</button>
-    <div id="box"></div>
-    <p id="result"></p>
-</div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
