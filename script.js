@@ -11,7 +11,7 @@ let startTime = 0;
 let bestTime = null;
 
 function resetBoxState() {
-    box.classList.remove("waiting", "go");
+    box.classList.remove("waiting", "go", "early");
 }
 
 function updatePrompt(text) {
@@ -65,8 +65,13 @@ function handleBoxClick() {
         isWaiting = false;
         updatePrompt("Too early!");
         result.textContent = "Wait for the green square.";
+        // show a red "early" state briefly
+        box.classList.add("early");
         setButtonState(true);
-        resetBoxState();
+        // clear visual state after a short delay
+        setTimeout(() => {
+            resetBoxState();
+        }, 900);
     } else {
         updatePrompt("Press Start to begin");
         result.textContent = "";

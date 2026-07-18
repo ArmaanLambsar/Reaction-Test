@@ -9,16 +9,16 @@ body {
 }
 
 body {
-    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    background: radial-gradient(circle at top, rgba(120, 99, 255, 0.24), transparent 28%),
-                radial-gradient(circle at bottom right, rgba(0, 255, 192, 0.12), transparent 24%),
-                linear-gradient(135deg, #121427 0%, #1b1c38 100%);
-    color: #f3f7ff;
+    font-family: 'Press Start 2P', VT323, ui-monospace, monospace, system-ui;
+    background: linear-gradient(180deg,#1b1b2f 0%,#08101a 100%);
+    color: #f7f1de;
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 24px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 body::before {
@@ -27,6 +27,21 @@ body::before {
     inset: 0;
     background: radial-gradient(circle, rgba(255,255,255,0.04), transparent 36%);
     pointer-events: none;
+}
+
+/* Scanline / grain overlay for retro CRT feel */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.06) 0 2px,
+        rgba(255,255,255,0.01) 2px 4px
+    );
+    mix-blend-mode: overlay;
+    opacity: 0.6;
 }
 
 .page-shell {
@@ -77,23 +92,25 @@ body::before {
 .status-pill {
     padding: 10px 16px;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.08);
-    color: #e7ebff;
+    background: rgba(240, 198, 116, 0.12);
+    color: #f7f1de;
     font-size: 0.95rem;
     min-width: 130px;
 }
 
 .primary-btn {
-    background: linear-gradient(135deg, #6c5cff, #3f7dff);
-    border: none;
-    border-radius: 18px;
-    color: white;
-    font-size: 1rem;
+    background: linear-gradient(180deg,#ffd27a,#ffb84d);
+    border: 3px solid #2b2b2b;
+    border-radius: 6px;
+    color: #1b1b1b;
+    font-size: 0.9rem;
     font-weight: 700;
-    padding: 16px 26px;
+    padding: 12px 20px;
     cursor: pointer;
-    transition: transform 0.24s ease, box-shadow 0.24s ease, background 0.24s ease;
-    box-shadow: 0 14px 30px rgba(64, 94, 255, 0.25);
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    box-shadow: 0 6px 0 #2b2b2b;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
 }
 
 .primary-btn:hover,
@@ -114,9 +131,9 @@ body::before {
     max-width: 280px;
     max-height: 280px;
     margin: 0 auto;
-    border-radius: 28px;
-    border: 2px solid rgba(255, 255, 255, 0.06);
-    background: linear-gradient(180deg, #2c2f4f 0%, #1b1c38 100%);
+    border-radius: 6px;
+    border: 3px solid #f0c674;
+    background: linear-gradient(180deg,#2b2b2b 0%, #111111 100%);
     display: grid;
     place-items: center;
     cursor: pointer;
@@ -161,6 +178,24 @@ body::before {
     letter-spacing: 0.2em;
 }
 
+#box.early {
+    background: #ff5b5b;
+    box-shadow: 0 0 40px rgba(255, 91, 91, 0.45), inset 0 0 50px rgba(255, 91, 91, 0.18);
+    transform: scale(1.02);
+}
+
+#box.early::after {
+    content: "TOO SOON REDO";
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: rgba(34, 6, 6, 0.95);
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    font-weight: 800;
+    letter-spacing: 0.12em;
+}
+
 #box:not(.go)::after {
     content: "";
 }
@@ -170,14 +205,4 @@ body::before {
     color: #d7e1ff;
     font-size: 1.05rem;
     min-height: 1.3em;
-}
-
-@media (max-width: 420px) {
-    #container {
-        padding: 22px;
-    }
-
-    .primary-btn {
-        width: 100%;
-    }
 }
