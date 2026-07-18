@@ -10,7 +10,7 @@ body {
 
 body {
     font-family: 'Press Start 2P', VT323, ui-monospace, monospace, system-ui;
-    background: linear-gradient(180deg,#1b1b2f 0%,#08101a 100%);
+    background: linear-gradient(180deg,hsl(144, 87%, 53%) 0%,hsl(128, 93%, 49%) 100%);
     color: #f7f1de;
     text-align: center;
     display: flex;
@@ -69,7 +69,7 @@ body::after {
 }
 
 #container {
-    background: rgba(18, 22, 47, 0.88);
+    background: #d6ff1fe0;
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 32px;
     box-shadow: 0 32px 80px rgba(0, 0, 0, 0.34);
